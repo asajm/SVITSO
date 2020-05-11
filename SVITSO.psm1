@@ -1,7 +1,10 @@
-# these functions to manage MFA methods of Azure AD users
 
-# this function to get MFA methods of one or a list of users (UPNs)
-function Get-UserAuthMethods {
+
+
+
+# Import-Module MSOnline
+
+function Get-SVUserAuthMethods {
     param ( $upns )
     foreach ($upn in $upns) {
         $user = Get-MsolUser -UserPrincipalName $upn
@@ -9,8 +12,7 @@ function Get-UserAuthMethods {
     }
 }
 
-#thsi function to set call-me option into one or a list of users (UPNs)
-function Add-CallAuthMethod {
+function Add-SVCallAuthMethod {
     param ( $upns )
     $call_method = New-Object -TypeName Microsoft.Online.Administration.StrongAuthenticationMethod
     $call_method.MethodType = "TwoWayVoiceMobile"
@@ -35,3 +37,6 @@ function Add-CallAuthMethod {
         Set-MsolUser -UserPrincipalName $upn -StrongAuthenticationMethods $user.StrongAuthenticationMethods
     }
 }
+
+# Export-ModuleMember -Function Get-SVUserAuthMethods
+# Export-ModuleMember -Function Add-SVCallAuthMethod
